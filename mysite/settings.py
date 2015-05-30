@@ -71,10 +71,18 @@ STATIC_ROOT = os.path.join(DATA_DIR, 'static')
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'mysite', 'static'),
 )
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    # important! place right before django.contrib.staticfiles.finders.AppDirectoriesFinder
+    'aldryn_boilerplates.staticfile_finders.AppDirectoriesFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+]
+
 SITE_ID = 1
 
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
+    'aldryn_boilerplates.template_loaders.AppDirectoriesLoader',
     'django.template.loaders.app_directories.Loader',
     'django.template.loaders.eggs.Loader'
 )
@@ -105,12 +113,15 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.tz',
     'sekizai.context_processors.sekizai',
     'django.core.context_processors.static',
-    'cms.context_processors.cms_settings'
+    'cms.context_processors.cms_settings',
+    'aldryn_boilerplates.context_processors.boilerplate',
 )
 
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'mysite', 'templates'),
 )
+
+ALDRYN_BOILERPLATE_NAME = 'bootstrap3'
 
 INSTALLED_APPS = (
     'djangocms_admin_style',
@@ -141,6 +152,17 @@ INSTALLED_APPS = (
     'mysite',
     'polls',
     'polls_plugin',
+    'aldryn_apphooks_config',
+    'aldryn_boilerplates',
+    'aldryn_categories',
+    'aldryn_newsblog',
+    'aldryn_people',
+    'aldryn_reversion',
+    'easy_thumbnails',
+    'filer',
+    'parler',
+    'sortedm2m',
+    'taggit',
 )
 
 LANGUAGES = (
@@ -201,3 +223,12 @@ MIGRATION_MODULES = {
     'djangocms_teaser': 'djangocms_teaser.migrations_django',
     'djangocms_video': 'djangocms_video.migrations_django'
 }
+
+
+THUMBNAIL_PROCESSORS = (
+    'easy_thumbnails.processors.colorspace',
+    'easy_thumbnails.processors.autocrop',
+    # 'easy_thumbnails.processors.scale_and_crop',
+    'filer.thumbnail_processors.scale_and_crop_with_subject_location',
+    'easy_thumbnails.processors.filters',
+)
