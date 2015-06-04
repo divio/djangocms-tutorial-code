@@ -163,6 +163,7 @@ INSTALLED_APPS = (
     'parler',
     'sortedm2m',
     'taggit',
+    'faq',
 )
 
 LANGUAGES = (
